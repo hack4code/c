@@ -78,7 +78,7 @@ main(int argc, char **argv) {
 
 #if 1
 void *
-sig_th(void *arg) {
+th_sig(void *arg) {
     sigset_t *set = arg;
     int sig;
 
@@ -108,7 +108,7 @@ main(int argc, char **argv) {
     
     pthread_sigmask(SIG_BLOCK, &set, NULL);
 
-    pthread_create(&ts, NULL, sig_th, &set);
+    pthread_create(&ts, NULL, th_sig, &set);
     pthread_create(&t1, NULL, th_fun, &run1);
     pthread_create(&t2, NULL, th_fun, &run2);
 
