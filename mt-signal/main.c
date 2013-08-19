@@ -41,7 +41,6 @@ th_fun(void *arg) {
     }
     fprintf(stdout, "Exit\n");
     pthread_exit(0);
-    return NULL;
 }
 
 int
