@@ -23,17 +23,19 @@
 #include <signal.h>
 #include <string.h>
 
-static int run = 1;
+static int run1 = 1;
+static int run2 = 1;
 
 void
 sig_handler(int sig) {
     fprintf(stdout, "Sig handle\n");
-    run = 0;
+    run1 = 0;
+    run2 = 0;
 }
 
 void *
 th_fun(void *arg) {
-    while (run) {
+    while (*(int *)arg) {
         fprintf(stdout, "Hello\n");
         sleep(2);
     }
@@ -45,6 +47,8 @@ th_fun(void *arg) {
 int
 main(int argc, char **argv) {
     struct sigaction sig_act;
+    pthread_t t1;
+    pthread_t t2;
 
     memset((void *)&sig_act, 0, sizeof(sig_act));
     sigemptyset(&sig_act.sa_mask);
@@ -55,9 +59,10 @@ main(int argc, char **argv) {
     sigaction(SIGTERM, &sig_act, NULL);
     sigaction(SIGQUIT, &sig_act, NULL);
 
-    pthread_t t;
-    pthread_create(&t, NULL, th_fun, NULL);
-    pthread_join(t, NULL);
+    pthread_create(&t1, NULL, th_fun, &run1);
+    pthread_create(&t2, NULL, th_fun, &run2);
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
 
     return EXIT_SUCCESS;
 }
