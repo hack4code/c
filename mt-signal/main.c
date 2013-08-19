@@ -26,13 +26,6 @@
 static int run1 = 1;
 static int run2 = 1;
 
-void
-sig_handler(int sig) {
-    fprintf(stdout, "Sig handle\n");
-    run1 = 0;
-    run2 = 0;
-}
-
 void *
 th_fun(void *arg) {
     while (*(int *)arg) {
@@ -41,6 +34,18 @@ th_fun(void *arg) {
     }
     fprintf(stdout, "Exit\n");
     pthread_exit(0);
+}
+
+/*
+ * signal handler 
+ */
+
+#if 0
+void
+sig_handler(int sig) {
+    fprintf(stdout, "Sig handle %d\n", sig);
+    run1 = 0;
+    run2 = 0;
 }
 
 int
@@ -65,3 +70,52 @@ main(int argc, char **argv) {
 
     return EXIT_SUCCESS;
 }
+#endif
+
+/*
+ *  signal thread
+ */
+
+#if 1
+void *
+sig_th(void *arg) {
+    sigset_t *set = arg;
+    int sig;
+
+    while (1) {
+        sigwait(set, &sig);
+        if ((SIGINT == sig) || (SIGTERM == sig) || (SIGQUIT == sig)) {
+            fprintf(stdout, "Sig handle %d\n", sig);
+            run1 = 0;
+            run2 = 0;
+            break;
+        }
+    }
+    pthread_exit(0);
+}
+
+int
+main(int argc, char **argv) {
+    sigset_t set;
+    pthread_t ts;
+    pthread_t t1;
+    pthread_t t2;
+
+    sigemptyset(&set);
+    sigaddset(&set, SIGINT);
+    sigaddset(&set, SIGTERM);
+    sigaddset(&set, SIGQUIT);
+    
+    pthread_sigmask(SIG_BLOCK, &set, NULL);
+
+    pthread_create(&ts, NULL, sig_th, &set);
+    pthread_create(&t1, NULL, th_fun, &run1);
+    pthread_create(&t2, NULL, th_fun, &run2);
+
+    pthread_join(ts, NULL);
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+
+    return EXIT_SUCCESS;
+}
+#endif
