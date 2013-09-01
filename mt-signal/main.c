@@ -29,10 +29,11 @@ static int run2 = 1;
 void *
 th_fun(void *arg) {
     while (*(int *)arg) {
-        fprintf(stdout, "Hello\n");
+        fprintf(stdout, "%u: Hello World!\n", pthread_self());
         sleep(2);
     }
-    fprintf(stdout, "Exit\n");
+
+    fprintf(stdout, "%u: Exit\n", pthread_self());
     pthread_exit(0);
 }
 
