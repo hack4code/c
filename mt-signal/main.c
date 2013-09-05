@@ -29,11 +29,11 @@ static int run2 = 1;
 void *
 th_fun(void *arg) {
     while (*(int *)arg) {
-        fprintf(stdout, "%u: Hello World!\n", pthread_self());
+        fprintf(stdout, "%u: hello world!\n", pthread_self());
         sleep(2);
     }
 
-    fprintf(stdout, "%u: Exit\n", pthread_self());
+    fprintf(stdout, "%u: exit\n", pthread_self());
     pthread_exit(0);
 }
 
@@ -86,7 +86,7 @@ th_sig(void *arg) {
     while (1) {
         sigwait(set, &sig);
         if ((SIGINT == sig) || (SIGTERM == sig) || (SIGQUIT == sig)) {
-            fprintf(stdout, "Sig handle %d\n", sig);
+            fprintf(stdout, "signal handle %d\n", sig);
             run1 = 0;
             run2 = 0;
             break;
