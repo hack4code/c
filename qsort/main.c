@@ -20,49 +20,53 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int
-partion(int arr[], int p, int r) {
-    int i = p - 1;
-    int x = arr[r];
-    int j, t;
+void swap(int arr[], int i, int j)
+{
+	int t;
 
-    for (j = p; j < r; ++j)
-        if (arr[j] < x) {
-            ++i;
-            t = arr[i];
-            arr[i] = arr[j];
-            arr[j] = t;
-        }
-
-    arr[r] = arr[i+1];
-    arr[i+1] = x;
-
-    return i + 1;
+	t = arr[i];
+	arr[i] = arr[j];
+	arr[j] = t;
 }
 
-void
-_qsort(int arr[], int p, int r) {
-    if (p < r) {
-        int pivot = partion(arr, p, r);
-        _qsort(arr, p, pivot - 1);
-        _qsort(arr, pivot + 1, r);
-    }
+int partion(int arr[], int p, int r)
+{
+	int i = p - 1;
+	int x = arr[r];
+	int j;
+
+	for (j = p; j < r; ++j)
+		if (arr[j] < x) 
+			swap(arr, ++i, j);
+
+	swap(arr, ++i, r);
+
+	return i;
 }
 
-int
-main(int argc, char **argv) {
-    int i, arr[10];
+void _qsort(int arr[], int p, int r)
+{
+	if (p < r) {
+		int pivot = partion(arr, p, r);
+		_qsort(arr, p, pivot - 1);
+		_qsort(arr, pivot + 1, r);
+	}
+}
 
-    srand(time(NULL));
+int main(int argc, char **argv)
+{
+	int i, arr[16];
 
-    for (i = 0; i < 10; ++i)
-        arr[i] = rand() % 100;
+	srand(time(NULL));
 
-    _qsort(arr, 0, 9);
+	for (i = 0; i < sizeof(arr) / sizeof(arr[0]); ++i)
+		arr[i] = rand() % 100;
 
-    for (i = 0; i < 10; ++i)
-        fprintf(stdout, "%d ", arr[i]);
-    fprintf(stdout, "\n");
+	_qsort(arr, 0, sizeof(arr) / sizeof(arr[0]) - 1);
 
-    return EXIT_SUCCESS;
+	for (i = 0; i < sizeof(arr) / sizeof(arr[0]); ++i)
+		fprintf(stdout, "%d ", arr[i]);
+	fprintf(stdout, "\n");
+
+	return EXIT_SUCCESS;
 }
