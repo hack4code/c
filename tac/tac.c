@@ -1,11 +1,11 @@
 
-
 /**
  * 	reverse string, just like tac
  * 	assure dst has enough space for reverse src, and src is not empty
  */
 
-void tac(const char *src, char *dst) {
+void _tac(const char *src, char *dst) 
+{
 	int m, n = 0; /* src index, for copy, n is line start, and m is \n for last */
 	int k = 0;    /* dst index */
 	int i;
@@ -47,6 +47,34 @@ firstline:
 		dst[k++] = src[i];
 
 	dst[k] = '\0';
+}
+
+
+void tac(const char *src, char *dst)
+{
+	const char *start = src, *end, *tmp;
+
+	while (*start)
+		++start;
+
+	--start;
+	end = start;
+
+	while (--start > src)
+		if ('\n' == *start) {
+			for (tmp = start + 1; tmp <= end; ++tmp)
+				*dst++ = *tmp;
+
+			if ('\n' != *end)
+				*dst++ = '\n';
+
+			end = start;
+		}
+
+	for (tmp = src; tmp <= end; ++tmp)
+		*dst++ = *tmp;
+
+	*dst = '\0';
 }
 
 
