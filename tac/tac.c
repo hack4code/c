@@ -1,4 +1,3 @@
-
 /**
  * 	reverse string, just like tac
  * 	assure dst has enough space for reverse src, and src is not empty
@@ -104,5 +103,5 @@ int main(int argc, char *argv[])
 	tac(str4, dst);
 	fprintf(stdout, "%s", dst);
 
-	return EXIT_SUCCESS;
+	return 0;
 }

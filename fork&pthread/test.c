@@ -1,25 +1,9 @@
-/*
- * =====================================================================================
- *
- *       Filename:  main.c
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  10/08/2013 02:27:36 PM
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  wartalker (LiuWei), wartalker@gmail.com
- *   Organization:  
- *
- * =====================================================================================
- */
-
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 static int g_count = 0;
 
@@ -49,5 +33,5 @@ int main(int argc, char *argv[])
 	pthread_join(t, NULL);
 	fprintf(stdout, "parent: g_count = %d\n", g_count);
 
-	return EXIT_SUCCESS;
+	return 0;
 }

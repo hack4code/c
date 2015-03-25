@@ -1,21 +1,3 @@
-/*
- * =====================================================================================
- *
- *       Filename:  main.c
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  05/26/2013 10:48:25 PM
- *       Revision:  none
- *       Compiler:  gcc
- *
- *        Author:  wartalker
- *        Company: fly@sky 
- *
- * =====================================================================================
- */
-
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -68,5 +50,5 @@ int main(int argc, char **argv)
 		fprintf(stdout, "%d ", arr[i]);
 	fprintf(stdout, "\n");
 
-	return EXIT_SUCCESS;
+	return 0;
 }

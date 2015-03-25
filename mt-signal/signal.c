@@ -1,21 +1,3 @@
-/*
- * =====================================================================================
- *
- *       Filename:  main.c
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  08/19/2013 08:06:17 PM
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  wartalker (LiuWei), wartalker@gmail.com
- *   Organization:  
- *
- * =====================================================================================
- */
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
@@ -29,11 +11,11 @@ static int run2 = 1;
 void * th_fun(void *arg)
 {
 	while (*(int *)arg) {
-		fprintf(stdout, "%u: hello world!\n", pthread_self());
+		fprintf(stdout, "%u: hello world!\n", (unsigned int)pthread_self());
 		sleep(2);
 	}
 
-	fprintf(stdout, "%u: exit\n", pthread_self());
+	fprintf(stdout, "%u: exit\n", (unsigned int)pthread_self());
 	pthread_exit(0);
 }
 
